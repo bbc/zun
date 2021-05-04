@@ -292,6 +292,8 @@ class DockerDriver(driver.BaseDriver, driver.ContainerDriver,
             host_config = {}
             host_config['privileged'] = container.privileged
             host_config['runtime'] = runtime
+            # NOTE: This is a temporary hack to test a DNS workaround
+            binds['/root/ab-resolv.conf'] = {'bind': '/etc/resolv.conf', 'mode': 'ro'}
             host_config['binds'] = binds
             kwargs['volumes'] = [b['bind'] for b in binds.values()]
             self._process_exposed_ports(network_driver.neutron_api, container,
