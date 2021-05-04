@@ -311,7 +311,9 @@ class DockerDriver(driver.BaseDriver, driver.ContainerDriver,
             if self._should_limit_memory(container):
                 host_config['mem_limit'] = str(container.memory) + 'M'
             if self._should_limit_cpu(container):
-                host_config['cpu_shares'] = int(1024 * container.cpu)
+                #host_config['cpu_shares'] = int(1024 * container.cpu)
+                host_config['cpu_period'] = 100000
+                host_config['cpu_quota'] = int(100000 * container.cpu)
             if container.restart_policy:
                 count = int(container.restart_policy['MaximumRetryCount'])
                 name = container.restart_policy['Name']
